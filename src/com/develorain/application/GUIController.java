@@ -16,20 +16,12 @@ import java.util.TimerTask;
 public class GUIController implements Initializable {
     private Media media;
     private MediaPlayer mediaPlayer;
-    private Timer timer;
+    public static Timer timer;
     private TimerTask timerTask;
     private long notificationTime = 10 * 1000;
 
     @FXML
     private ComboBox<String> comboBox;
-
-    @FXML
-    public void comboBoxClicked() {
-        notificationTime = Long.parseLong(comboBox.getValue()) * 1000;
-        mediaPlayer.stop();
-        timerTask.cancel();
-        initTimerTask();
-    }
 
     @Override
     @FXML
@@ -41,9 +33,7 @@ public class GUIController implements Initializable {
 
         initTimerTask();
 
-        ObservableList<String> options = FXCollections.observableArrayList(
-                "20", "40", "60"
-        );
+        ObservableList<String> options = FXCollections.observableArrayList("20", "40", "60");
 
         comboBox.setItems(options);
     }
@@ -58,5 +48,13 @@ public class GUIController implements Initializable {
         };
 
         timer.scheduleAtFixedRate(timerTask, notificationTime, notificationTime);
+    }
+
+    @FXML
+    public void comboBoxClicked() {
+        notificationTime = Long.parseLong(comboBox.getValue()) * 1000;
+        mediaPlayer.stop();
+        timerTask.cancel();
+        initTimerTask();
     }
 }
